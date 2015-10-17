@@ -1,0 +1,168 @@
+.header .wrapper .brand{
+    float: none;
+}
+.map-canvas .map, .map-canvas .items-list{
+    width: 50%;
+}
+.infobox .inner .image img, .item .image a > img, .item .image > .inner > img {    
+    max-height: 190px;
+}
+.item .wrapper{
+    padding: 5px;
+}
+.map-canvas .results.grid li .item .wrapper .col-md-12, .map-canvas .results.grid li .item .wrapper .col-md-9{
+    padding: 0px;
+}
+.map-canvas .results.grid li .item .wrapper .col-md-9 a{
+    float: left;
+}
+.infobox .inner .image .description .meta{
+    width: 87%;
+}
+.item .wrapper{
+    min-height: 178px;
+}
+
+/*--------login and resistration style--------------*/
+
+.log-in-modal{
+    overflow-y: scroll;
+}
+.log-in-modal .modal-body .container{
+    max-width: 100%;
+}
+.log-in-modal .social-icons{
+    padding-left: 0;
+}
+.log-in-modal .social-icons li{
+    list-style: none;
+    margin: 10px auto;
+}
+.log-in-modal .social-icons li .btn{
+    color: #fff;
+    padding: 12px 20px;
+}
+.log-in-modal .social-icons li .fb-btn{
+    background-color: #3B5998;
+}
+.log-in-modal .social-icons li .fb-btn:hover {
+    background-color: #6A8BD2;
+}
+.log-in-modal .social-icons li .twitter-btn{
+    background-color:  #55acee;
+}
+.log-in-modal .social-icons li .twitter-btn:hover {
+    background-color: #8BC3EC;
+}
+
+.log-in-modal .social-icons li i{
+    float: left;
+}
+.log-in-modal .reg-page .divider::before {
+    border: 1px solid #ccc;
+    content: "";
+    left: 6%;
+    margin-top: 10px;
+    position: absolute;
+    width: 40%;
+}
+.log-in-modal .reg-page .divider{
+    margin-bottom: 10px;
+    margin-top: 0;
+    text-align: center;
+}
+.log-in-modal .reg-page .divider::after {
+    border: 1px solid #ccc;
+    content: "";
+    right: 6%;
+    margin-top: 10px;
+    position: absolute;
+    width: 40%;
+}
+
+.log-in-modal .form-group .form-control {
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    box-shadow: none;
+    padding-right: 45px;
+}
+/*.log-in-modal .form-group .fa{
+    margin-top: -40px;
+    position: absolute;
+    right: 30px;
+    font-size: 22px;
+}*/
+.log-in-modal .form-group .fa {
+    margin-top: -30px;
+    /* position: absolute; */
+    margin-right: 8px;
+    font-size: 22px;
+    float: right;
+}
+@media screen and (min-width:481px){
+    .log-in-modal .modal-dialog{
+        max-width: 400px;
+    }
+}
+@media screen and (max-width:480px){
+    .log-in-modal .modal-dialog{
+        max-width: 300px;
+    }
+}
+
+.log-in-modal .log-in-btn {
+    background-color: #ff5a5f;
+    border: 1px solid #ff5a5f;
+    border-radius: 5px;
+    padding: 5px;
+}
+.log-in-modal .log-in-btn:hover {
+    background-color: #ff7e82;    
+}
+.log-in-modal .btn-signup{
+    color: #fff;
+}
+.log-in-modal label.checkbox.padding-0{
+    white-space: normal;
+}
+.log-in-modal a.color-red{
+    color: #ff513f;
+}
+.log-in-modal.sign-up-modal .form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: none;
+    margin: 10px auto;
+    padding-right: 45px;
+}
+
+
+/*.sign-up-modal .signupform i.fa {
+    font-size: 22px;
+    margin-top: -40px;
+    position: absolute;
+    right: 30px;
+}*/
+
+.sign-up-modal .signupform .fa {
+    margin-top: -40px;
+    /* position: absolute; */
+    margin-right: 8px;
+    font-size: 22px;
+    float: right;
+}
+
+.forget-modal .forgetpwdfrm .form-control{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: none;
+    margin: 10px auto;
+    padding-right: 45px;
+}
+.forget-modal .forgetpwdfrm .fa {
+    margin-top: -40px;
+    /* position: absolute; */
+    margin-right: 8px;
+    font-size: 22px;
+    float: right;
+}

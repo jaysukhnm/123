@@ -29,18 +29,17 @@
         <![endif]-->
     </div>
     <ul class="user-area">
-        <li><a href="sign-in.html">Sign In</a></li>
-        <li><a href="register.html"><strong>Register</strong></a></li>
+        <?php 
+        $user = $this->UserAuth->getUser();
+        if($user):
+                echo "<li>".$this->Html->link(__('Logout'), array('controller' => 'Users', 'action' => 'logout', 'plugin' => 'usermgmt'));
+        else:?>
+            <li><a class="" data-toggle="modal" data-target="#loginModal"><?php echo __('Sign In');?></a></li>
+            <li><a class="" data-toggle="modal" data-target="#signupModal"><?php echo __('Register');?></a></li>
+        <?php endif;
+        ?>
         
-        <li><a class="" data-toggle="modal" data-target="#loginModal">Sign In</a></li>
-        <li><a class="" data-toggle="modal" data-target="#signupModal">Register</a></li>
-    </ul>
-    <a href="submit.html" class="submit-item">
-        <div class="content"><span>Submit Your Item</span></div>
-        <div class="icon">
-            <i class="fa fa-plus"></i>
-        </div>
-    </a>
+    </ul>   
     <div class="toggle-navigation" style="display: none;">
         <div class="icon">
             <div class="line"></div>

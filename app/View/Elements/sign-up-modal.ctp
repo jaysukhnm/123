@@ -33,7 +33,7 @@
 
                             <div class="divider">or</div>
 
-                            <?php echo $this->Form->create('User', array('novalidate','controller' => 'Users', 'action' => 'login', 'plugin' => 'Usermgmt')); ?>
+                            <?php echo $this->Form->create('User', array( 'url' => '/login'), 'novalidate'); ?>
                             <div class="form-group form-group-email margin-bottom-20">                                		   
                                 <?php echo $this->Form->input('email', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('EmailId'))); ?>
                                 <i class="fa fa-at fa-2x"></i>
@@ -154,7 +154,7 @@
 
                             <div class="divider">or</div>
 
-                            <?php echo $this->Form->create('Tbluser', array('class' => 'signupform ', 'novalidate','controller' => 'Users', 'action' => 'register', 'plugin' => 'Usermgmt')); ?>
+                            <?php echo $this->Form->create('User', array('controller' => 'Users', 'action' => 'register', 'plugin' => 'Usermgmt'), array('class' => 'signupform ', 'novalidate')); ?>
                             <div class="reg-header">
                                 <h1><?php echo __('Register a new account'); ?></h1>
                 <!--		<p><?php echo __('Already Signed Up? Click'); ?> 

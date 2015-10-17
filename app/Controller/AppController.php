@@ -34,9 +34,13 @@ class AppController extends Controller {
 
     var $helpers = array('Form', 'Html', 'Session', 'Js', 'Usermgmt.UserAuth');
     public $components = array('DebugKit.Toolbar', 'Session', 'RequestHandler', 'Usermgmt.UserAuth');
-
+    public $uses = array('Country');
+    
     function beforeFilter() {
         $this->userAuth();
+        
+        $countries = $this->Country->find('list', array('fields' => array('id', 'country_name')));
+        $this->set(compact('countries'));
     }
 
     private function userAuth() {

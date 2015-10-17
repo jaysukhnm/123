@@ -92,13 +92,22 @@
     right: 30px;
     font-size: 22px;
 }*/
+.log-in-modal .form-group {
+    position: relative;
+}
 .log-in-modal .form-group .fa {
+    margin: 0 ;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+/*.log-in-modal .form-group .fa {
     margin-top: -30px;
-    /* position: absolute; */
+     position: absolute; 
     margin-right: 8px;
     font-size: 22px;
     float: right;
-}
+}*/
 @media screen and (min-width:481px){
     .log-in-modal .modal-dialog{
         max-width: 400px;
@@ -136,7 +145,13 @@
     padding-right: 45px;
 }
 
-
+.log-in-modal.sign-up-modal .bootstrap-select {
+    padding-right: 0px;
+}
+.log-in-modal.sign-up-modal .bootstrap-select .selectpicker{
+    background-color: transparent;
+    box-shadow: none;
+}
 /*.sign-up-modal .signupform i.fa {
     font-size: 22px;
     margin-top: -40px;
@@ -144,13 +159,13 @@
     right: 30px;
 }*/
 
-.sign-up-modal .signupform .fa {
+/*.sign-up-modal .signupform .fa {
     margin-top: -40px;
-    /* position: absolute; */
+     position: absolute; 
     margin-right: 8px;
     font-size: 22px;
     float: right;
-}
+}*/
 
 .forget-modal .forgetpwdfrm .form-control{
     border: 1px solid #ccc;

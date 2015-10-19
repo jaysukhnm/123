@@ -551,10 +551,11 @@ function drawItemSpecific(category, json, a){
 function quickView(id){
     $.ajax({
         type: 'POST',
-        url: 'external/_modal.html',
+        //url: 'external/_modal.html',
+        url: 'Homes/coupon_modal',
         data: id,
         success: function (data) {
-            // Create HTML element with loaded data
+            // Create HTML element with loaded data            
             $('body').append(data);
         }
     });

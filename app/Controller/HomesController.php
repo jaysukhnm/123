@@ -104,6 +104,12 @@ class HomesController extends AppController {
     public function admin_index() {
     die('yes');
     }
+    
+    public function coupon_modal($id=null) {
+    
+    }
+    
+    
     public function getAllCategories() {
         $categories = $this->VipCategory->find('all');
         $cat_array = array();

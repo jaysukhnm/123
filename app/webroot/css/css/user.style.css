@@ -181,3 +181,95 @@
     font-size: 22px;
     float: right;
 }
+
+/*------------------------coupen style------------------------------------------*/
+.coupons .item .couponsContent .block {
+    padding: 4px 0;
+}
+.coupons .item .couponsContent .block .icon{
+    background-color: transparent !important;
+    color:#ff513f;
+    left:0;
+}
+.coupons .item .couponsContent .block .icon .fa{
+    color:#ff513f;
+}
+.coupons .item .couponsContent .block .text{
+    margin-left: 30px;
+}
+.coupons .item .couponsContent {
+    margin-left: -8px;
+    margin-top: -10px;
+}
+.coupons .item .image .overlay .content h4{
+    margin: 0;
+}
+.coupons .item .image .overlay .coupon-description{
+    margin-top: 10px;
+}
+.coupons .item .image .overlay .coupon-address{
+    margin-top: 10px;
+}
+
+.coupons .item .wrapper .coupon-price{
+    background-color: transparent;  
+    float: right;
+}
+.coupons .item .wrapper .coupon-name {
+    min-height: 35px;
+}
+
+.coupons .item .coupon-price .priceBox {
+/*    border: 1px solid #E0DEDE;*/
+/*    border-radius: 5px;*/
+    background-color: #777;
+    margin-right: 1px;
+    margin-top: 0px;
+    min-width: 36px;
+}
+.coupons .item .coupon-price  .priceBox label {
+    padding: 2px 6px;
+    margin-bottom: 0;
+    text-align: center;
+}
+.coupons .item .coupon-price .priceBox .label-block {
+    display: block;
+}
+.coupons .item .coupon-price .priceBox .label-danger{
+    background-color: #ff513f;
+}
+.coupons .item .coupon-price .priceBox .line-through {
+    text-decoration: line-through;
+}
+ .coupons .item .image img {
+    min-height: 250px;   
+}
+.coupons .item .quick-view{
+    top:0;
+}
+.coupons .item .wrapper .discount-amount{
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid #ccc;
+    color: #ff513f;
+    display: block;
+    font-weight: bold;
+    padding: 4px 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 3;
+}
+.coupons .item:hover .wrapper .discount-amount{
+    display: none;
+}
+/*.coupons .item:hover .image img{
+    transform: scale(1.5) rotate(20deg);
+    transition: all 0.3s linear 0s;
+}
+.coupons .item{
+    overflow: hidden;
+}*/
+.coupons .item .wrapper {
+    min-height: auto;
+    text-align: left !important;
+}

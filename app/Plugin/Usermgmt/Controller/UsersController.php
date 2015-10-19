@@ -91,7 +91,7 @@ class UsersController extends UserMgmtAppController {
         $this->layout = 'ajax';
         if ($this->request->isPost()) {            
             $this->User->set($this->data);
-            pr($this->request->data);die;
+           // pr($this->request->data);die;
             if ($this->User->LoginValidate()) {
                 $email = $this->data['email'];
                 $password = $this->data['password'];

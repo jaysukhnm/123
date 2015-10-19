@@ -99,6 +99,9 @@ class HomesController extends AppController {
         $this->set(compact('data', 'coupons'));
     }
 
+    public function admin_index() {
+    die('yes');
+    }
     public function getAllCategories() {
         $categories = $this->VipCategory->find('all');
         $cat_array = array();

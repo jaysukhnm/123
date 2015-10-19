@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application level Controller
  *
@@ -18,7 +19,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('Controller', 'Controller');
 
 /**
@@ -35,9 +35,20 @@ class AppController extends Controller {
     var $helpers = array('Form', 'Html', 'Session', 'Js', 'Usermgmt.UserAuth');
     public $components = array('DebugKit.Toolbar', 'Session', 'RequestHandler', 'Usermgmt.UserAuth');
     public $uses = array('Country');
-    
+
     function beforeFilter() {
         $this->userAuth();
+
+        if (isset($this->params['admin']) && $this->params['admin']) {
+            // check user is logged in
+            $user = $this->UserAuth->getUser();
+            if (empty($user) || !in_array($user['User']['user_group_id'], array('1','4','5','6','7'))):
+                $this->Session->setFlash('You must be logged in for that action.');
+                $this->redirect('/');
+            endif;
+            // change layout
+            $this->layout = 'admin';
+        }
         
         $countries = $this->Country->find('list', array('fields' => array('id', 'country_name')));
         $this->set(compact('countries'));
@@ -48,4 +59,3 @@ class AppController extends Controller {
     }
 
 }
-

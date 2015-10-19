@@ -1,12 +1,6 @@
 <div id="loginModal" class="modal fade log-in-modal" role="dialog">
     <div class="modal-dialog">
-
-        <!-- Modal content-->
         <div class="modal-content">
-            <!--            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title"></h4>
-                        </div>-->
             <div class="modal-body">
                 <div class="container content">		
                     <div class="row">	                        
@@ -33,7 +27,7 @@
 
                             <div class="divider">or</div>
 
-                            <?php echo $this->Form->create('User', array( 'url' => '/login'), 'novalidate'); ?>
+                            <?php echo $this->Form->create('User', array('url' => '/login', 'id' => 'signinForm'), 'novalidate'); ?>
                             <div class="form-group form-group-email margin-bottom-20">                                		   
                                 <?php echo $this->Form->input('email', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('EmailId'))); ?>
                                 <i class="fa fa-at fa-2x"></i>
@@ -45,7 +39,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <label class="checkbox">
-                                        <?php echo $this->Form->input('remember', array('type' => 'checkbox', 'div' => false, 'label' => false)); ?>
+                                        <?php echo $this->Form->input('remember', array('type' => 'checkbox', 'id' => 'remember_checkbox', 'div' => false, 'label' => false)); ?>
                                         <?php echo __("Stay signed in"); ?></label>                        
                                 </div>
                                 <div class="col-md-12">
@@ -235,9 +229,32 @@
 <?php $this->start('footer_js'); ?>
 <script>
     $(document).ready(function () {
+        $('#signinForm').submit(function () {
+            var email = $('#UserEmail').val();
+            var password = $('#UserPassword').val();
+            if($('#remember_checkbox').prop('checked') == true){
+                var remember = 1;
+            }else{
+                var remember = 0;
+            }
+            
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $this->Html->url('/'); ?>login',
+                data: {email:email, password:password, remember:remember},                
+                success: function(resp) {				   
+                    console.log(resp);
+                }
+            });	
+            return false;
+        });
+        
+        
         $('#forgetpwd').click(function () {
             $('#loginModal').modal('hide');
         });
+        
+        
     })
 </script>
 <?php $this->end(); ?>

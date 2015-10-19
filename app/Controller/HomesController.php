@@ -82,20 +82,22 @@ class HomesController extends AppController {
         $this->set('_serialize', array('data'));
         
 //        
-//        if (!empty($user_loacation)):	    
-//	    $this->Coupon->virtualFields = array(
-//		    'distance' => "(((acos(sin(($latitude*pi()/180)) 
-//                                    * sin((Store.lat*pi()/180))
-//                                    + cos(($latitude*pi()/180)) * cos((Store.lat*pi()/180))
-//                                    * cos((($longitude - Store.lng)*pi()/180))))*180/pi())*60*1.1515)"
-//		);
-//	    $order = 'Coupon.distance ASC';	
-//	else:
-//	    $order = 'Coupon.name DESC';	
-//	endif;
-//        $this->Coupon->bindModel(array('belongsTo' => array('Store' => array('foreignKey' => 'store_id'))));
-//        $this->Coupon->bindModel(array('hasMany' => array('MediaCoupon' => array('foreignKey' => 'coupon_id'))));
-//	$coupons = $this->Coupon->find('all', array('recursive' => 2, 'conditions' => array('Coupon.begin_date <=' => date('Y-m-d'), 'Coupon.end_date >=' => date('Y-m-d')), 'order' => $order, 'limit' => 4));		 
+        if (!empty($user_loacation)):	    
+	    $this->Coupon->virtualFields = array(
+		    'distance' => "(((acos(sin(($latitude*pi()/180)) 
+                                    * sin((Store.lat*pi()/180))
+                                    + cos(($latitude*pi()/180)) * cos((Store.lat*pi()/180))
+                                    * cos((($longitude - Store.lng)*pi()/180))))*180/pi())*60*1.1515)"
+		);
+	    $order = 'Coupon.distance ASC';	
+	else:
+	    $order = 'Coupon.name DESC';	
+	endif;
+        $this->Store->bindModel(array('belongsTo' => array('StoreSetting' => array('foreignKey' => 'store_id'))));
+        $this->Coupon->bindModel(array('belongsTo' => array('Store' => array('foreignKey' => 'store_id'))));
+        $this->Coupon->bindModel(array('hasMany' => array('MediaCoupon' => array('foreignKey' => 'coupon_id'))));
+	$coupons = $this->Coupon->find('all', array('recursive' => 2, 'conditions' => array('Coupon.begin_date <=' => date('Y-m-d'), 'Coupon.end_date >=' => date('Y-m-d')), 'order' => $order, 'limit' => 4));		 
+             
         $this->set(compact('data', 'coupons'));
     }
 

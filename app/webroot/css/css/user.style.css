@@ -273,3 +273,28 @@
     min-height: auto;
     text-align: left !important;
 }
+
+
+/*---------------------------------coupon moda style-----------------------------*/
+
+/*.coupon-modal .modal-wrapper{
+    width:700px;
+}*/
+.coupon-modal .modal-wrapper .modal-body{
+    width: 100%;
+}
+@media screen and (min-width:480) and (max-width:768px){
+    .coupon-modal .modal-wrapper{
+        width:400px;
+    }
+}
+@media screen and (max-width:320px){
+    .coupon-modal .modal-wrapper{
+        width:300px;
+    }
+}
+@media screen and (min-width:768px){
+    .coupon-modal .modal-wrapper{
+        width:700px;
+    }
+}

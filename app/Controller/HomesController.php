@@ -102,7 +102,8 @@ class HomesController extends AppController {
     }
 
     public function admin_index() {
-    die('yes');
+        $this->layout = 'admin';       
+        
     }
     
     public function coupon_modal($id=null) {

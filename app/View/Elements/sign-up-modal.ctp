@@ -263,8 +263,13 @@
                 type: 'POST',
                 url: '<?php echo $this->Html->url('/'); ?>login',
                 data: {email:email, password:password, remember:remember},                
-                success: function(resp) {				   
-                    console.log(resp);
+                success: function(resp) { 
+                    var response = jQuery.parseJSON(resp);
+                    if(response.user_group == '1'){
+                        window.location.href = "/admin";
+                    }else{                     
+                        $('#loginModal').modal('hide');
+                    }
                 }
             });	
             return false;

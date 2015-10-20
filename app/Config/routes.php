@@ -30,6 +30,7 @@
  */
 	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
        
+        Router::connect('/admin', array('admin' => true, 'prefix' => 'admin', 'controller' => 'homes'));
         Router::connect('/admin/:controller/:action/*', array('admin' => true, 'prefix' => 'admin', 'controller' => 'homes'));
 // 'admin' => true is a variable for you so you can check if it's an admin-action which is requested
 // 'prefix' => 'admin' means that you can write function with this prefix like above

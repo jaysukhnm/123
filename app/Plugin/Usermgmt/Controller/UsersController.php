@@ -89,13 +89,14 @@ class UsersController extends UserMgmtAppController {
      */
     public function login() {
         $this->layout = 'ajax';
-        if ($this->request->isPost()) {            
+        $user_group = '';
+        if ($this->request->isPost()) {
             $this->User->set($this->data);
-           // pr($this->request->data);die;
             if ($this->User->LoginValidate()) {
                 $email = $this->data['email'];
                 $password = $this->data['password'];
                 $user = $this->User->findByUsername($email);
+                
                 if (empty($user)) {
                     $user = $this->User->findByEmail($email);
                     if (empty($user)) {
@@ -104,12 +105,12 @@ class UsersController extends UserMgmtAppController {
                     }
                 }
                 // check for inactive account
-                if ($user['User']['id'] != 1 and $user['User']['active'] == 0) {                    
+                if ($user['User']['id'] != 1 and $user['User']['active'] == 0) {
                     $errorMsg = __('Sorry your account is not active, please contact to Administrator');
                     $status = 0;
                 }
                 // check for verified account
-                if ($user['User']['id'] != 1 and $user['User']['email_verified'] == 0) {                    
+                if ($user['User']['id'] != 1 and $user['User']['email_verified'] == 0) {
                     $errorMsg = __('Sorry your account is not active, please contact to Administrator');
                     $status = 0;
                 }
@@ -125,24 +126,27 @@ class UsersController extends UserMgmtAppController {
                         $user['User']['password'] = $this->UserAuth->makePassword($password, $salt);
                         $this->User->save($user, false);
                     }
-                    $this->UserAuth->login($user);
-                    $remember = (!empty($this->data['User']['remember']));
-                    if ($remember) {
+                    $this->UserAuth->login($user);                    
+                    if ($this->data['remember'] == 1) {
                         $this->UserAuth->persist('2 weeks');
                     }
                     $OriginAfterLogin = $this->Session->read('Usermgmt.OriginAfterLogin');
                     $this->Session->delete('Usermgmt.OriginAfterLogin');
                     $redirect = (!empty($OriginAfterLogin)) ? $OriginAfterLogin : LOGIN_REDIRECT_URL;
-                    $this->redirect($redirect);
-                } else {                    
+//                    $this->redirect($redirect);
+                    $errorMsg = __('Login Successfull');
+                    $status = 1;
+                    $user_group = $user['User']['user_group_id'];
+                } else {
                     $errorMsg = __('Incorrect Email/Username or Password');
                     $status = 0;
                 }
-            }            
-        $data['status'] = $status;
-        $data['errorMsg'] = $errorMsg;        
-       pr($data);
-       die('sdf');
+            }
+            $data['status'] = $status;
+            $data['errorMsg'] = $errorMsg;
+            $data['user_group'] = $user_group;
+            echo json_encode($data);
+            exit();
         }
     }
 

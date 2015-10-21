@@ -81,7 +81,7 @@
 }
 
 .log-in-modal .form-group .form-control {
-    border: 1px solid #ccc !important;
+    border: 1px solid #ccc;
     border-radius: 5px !important;
     box-shadow: none;
     padding-right: 45px;
@@ -273,17 +273,38 @@
     min-height: auto;
     text-align: left !important;
 }
-
-
-/*---------------------------------coupon moda style-----------------------------*/
-
-/*.coupon-modal .modal-wrapper{
-    width:700px;
+.display-none{
+    display: none;
+}
+.textfield-error{
+    border: 1px solid #D30606 !important;
+/*    background-color: #f2dede !important;*/
+}
+/*.error-message{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width:100%;
 }*/
+.error-message {
+    border-color: #ebccd1;
+    color: #a94442;
+    display: block;
+    margin-top: -11px !important;    
+    width: 100%;
+}
+/*---------------------------------coupon modal style-----------------------------*/
+
+.coupon-modal .modal-wrapper{
+    overflow-x: hidden;
+    overflow-y: auto
+}
 .coupon-modal .modal-wrapper .modal-body{
     width: 100%;
 }
-@media screen and (min-width:480) and (max-width:768px){
+@media screen and (min-width:480) and (max-width:767px){
     .coupon-modal .modal-wrapper{
         width:400px;
     }

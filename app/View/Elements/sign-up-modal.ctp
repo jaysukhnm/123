@@ -28,6 +28,7 @@
                             <div class="divider">or</div>
 
                             <?php echo $this->Form->create('User', array('url' => '/login', 'id' => 'signinForm'), 'novalidate'); ?>
+
                             <div class="form-group form-group-email margin-bottom-20">                                		   
                                 <?php echo $this->Form->input('email', array('div' => false, 'label' => false, 'class' => 'form-control', 'placeholder' => __('EmailId'))); ?>
                                 <i class="fa fa-at fa-2x"></i>
@@ -85,7 +86,8 @@
                             <div class="reg-block-header text-center">
                                 <h1><?php echo __("Reset Password"); ?></h1>
                                 <?php echo __('Enter the email address associated with your account, and we\'ll email you a link to reset your password.'); ?>
-                                <?php echo $this->Form->create('Tbluser', array('class' => 'forgetpwdfrm ', 'novalidate','controller' => 'Users', 'action' => 'forgotPassword', 'plugin' => 'Usermgmt')); ?>
+                                <?php echo $this->Form->create('Tbluser', array('class' => 'forgetpwdfrm ', 'novalidate', 'controller' => 'Users', 'action' => 'forgotPassword', 'plugin' => 'Usermgmt')); ?>
+
                                 <?php echo $this->Form->input('emailId', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'E-mail address')); ?>
                                 <i class="fa fa-at fa-2x"></i>
                                 <div class="row">
@@ -148,7 +150,7 @@
 
                             <div class="divider">or</div>
 
-                            <?php echo $this->Form->create('User', array( 'url' => '/register', 'class' => 'signupform ', 'novalidate')); ?>
+                            <?php echo $this->Form->create('User', array('url' => '/register', 'class' => 'signupform ', 'novalidate', 'id' => 'signupform')); ?>
                             <div class="reg-header">
                                 <h1><?php echo __('Register a new account'); ?></h1>
                 <!--		<p><?php echo __('Already Signed Up? Click'); ?> 
@@ -156,58 +158,58 @@
                             </div>
 
 <!--                            <label><?php echo __('E-mail address'); ?><span class="color-red">*</span></label>		-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('emailId', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'E-mail address')); ?>
-                            <i class="fa fa-at fa-2x"></i>
-                              </div>
-                            
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('email', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'E-mail address')); ?>
+                                <i class="fa fa-at fa-2x"></i>
+                            </div>
+
 <!--<label><?php echo __('Password'); ?><span class="color-red">*</span></label>-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('password', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'Password')); ?>
-                            <i class="fa fa-lock fa-2x"></i>
-                              </div>
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('password', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'Password')); ?>
+                                <i class="fa fa-lock fa-2x"></i>
+                            </div>
 
 <!--                            <label><?php echo __('First Name'); ?><span class="color-red">*</span></label>		-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('first_name', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'First Name')); ?>
-                            <i class="fa fa-user fa-2x"></i>
-                              </div>
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('first_name', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'First Name')); ?>
+                                <i class="fa fa-user fa-2x"></i>
+                            </div>
 
 <!--                            <label><?php echo __('Last Name'); ?><span class="color-red">*</span></label>		-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('last_name', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'Last Name')); ?>
-                            <i class="fa fa-user fa-2x"></i>
-                              </div>
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('last_name', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'Last Name')); ?>
+                                <i class="fa fa-user fa-2x"></i>
+                            </div>
 
 <!--                            <label><?php echo __('Address'); ?><span class="color-red">*</span></label>-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('address', array('type' => 'textarea', 'label' => false, 'class' => 'form-control margin-bottom-10', 'rows' => 2, 'placeholder' => 'Address')) ?>
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('address', array('type' => 'textarea', 'label' => false, 'class' => 'form-control margin-bottom-10', 'rows' => 2, 'placeholder' => 'Address')) ?>
 <!--                                   <i class="fa fa-user fa-2x"></i>-->
-                              </div>
+                            </div>
 
 <!--                            <label><?php echo __('Postal code'); ?><span class="color-red">*</span></label>		-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('zipcode', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'Postal Code')); ?>
-                            <i class="fa fa-lock fa-2x"></i>
-                              </div>
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('zip_code', array('type' => 'text', 'div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'Postal Code')); ?>
+                                <i class="fa fa-lock fa-2x"></i>
+                            </div>
 
 <!--                            <label><?php echo __('City'); ?><span class="color-red">*</span></label>		-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('city', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'City')); ?>
-                            <i class="fa fa-map-marker fa-2x"></i>
-                              </div>
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('city', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'City')); ?>
+                                <i class="fa fa-map-marker fa-2x"></i>
+                            </div>
 
 <!--                            <label><?php echo __('Country'); ?><span class="color-red">*</span></label>		-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('countryId', array('div' => false, 'label' => false, 'class' => 'form-control input-lg margin-bottom-10', 'options' => $countries, 'placeholder' => 'Country')); ?>
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('country_id', array('div' => false, 'label' => false, 'class' => 'form-control input-lg margin-bottom-10', 'options' => $countries, 'placeholder' => 'Country')); ?>
 <!--                            <i class="fa fa-flag-o fa-2x"></i>-->
-                              </div>
+                            </div>
 
 <!--                            <label><?php echo __('Telephone'); ?><span class="color-red">*</span></label>		-->
-                              <div class="form-group form-group-email margin-bottom-20"> 
-                            <?php echo $this->Form->input('contact_no', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'Telephone')); ?>
-                            <i class="fa fa-phone fa-2x"></i>
-                              </div>
+                            <div class="form-group form-group-email margin-bottom-20"> 
+                                <?php echo $this->Form->input('contact_no', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'Telephone')); ?>
+                                <i class="fa fa-phone fa-2x"></i>
+                            </div>
 
 
                             <?php //echo $captcha; ?>
@@ -246,41 +248,94 @@
 
 <?php $this->start('footer_js'); ?>
 <?php
-            echo $this->Html->script('jquery.validate.min.js');
-        ?>
+echo $this->Html->script('jquery.validate.min.js');
+?>
 <script>
     $(document).ready(function () {
         $('#signinForm').submit(function () {
             var email = $('#UserEmail').val();
             var password = $('#UserPassword').val();
-            if($('#remember_checkbox').prop('checked') == true){
+            if ($('#remember_checkbox').prop('checked') == true) {
                 var remember = 1;
-            }else{
+            } else {
                 var remember = 0;
             }
-            
+
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $this->Html->url('/'); ?>login',
-                data: {email:email, password:password, remember:remember},                
-                success: function(resp) { 
+                data: {email: email, password: password, remember: remember},
+                success: function (resp) {
                     var response = jQuery.parseJSON(resp);
-                    if(response.user_group == '1'){
-                        window.location.href = "/admin";
-                    }else{                     
+
+                    if (response.status == '1') {
                         $('#loginModal').modal('hide');
                     }
+                    if (response.status == '2') {
+                        $('#signinForm .error-message').empty();
+                        validation_error(response.errorMsg.password, $('#signinForm #UserPassword'));
+                        validation_error(response.errorMsg.email, $('#signinForm #UserEmail'));
+                    }
+
+                    if (response.user_group == '1') {
+                        window.location.href = "/admin";
+                    } else {
+                        $('#loginModal').modal('hide');
+                    }
+
                 }
-            });	
+            });
             return false;
         });
-        
-        
+
+
         $('#forgetpwd').click(function () {
             $('#loginModal').modal('hide');
         });
-        
-        
+
+
+        $('#signupform').submit(function () {
+            var frm = $('#signupform').serialize();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $this->Html->url('/'); ?>register',
+                data: {post: frm},
+                success: function (resp) {
+
+                    var response = jQuery.parseJSON(resp);
+
+                    if (response.status == '1') {
+                        $('#signupModal').modal('hide');
+                    }
+                    if (response.status == '2') {
+                        $('#signupform .error-message').empty();
+                        validation_error(response.errorMsg.email, $('#signupform #UserEmail'));
+                        validation_error(response.errorMsg.password, $('#signupform #UserPassword'));
+                        validation_error(response.errorMsg.first_name, $('#signupform #UserFirstName'));
+                        validation_error(response.errorMsg.last_name, $('#signupform #UserLastName'));
+                        validation_error(response.errorMsg.address, $('#signupform #UserAddress'));
+                        validation_error(response.errorMsg.zip_code, $('#signupform #UserZipCode'));
+                        validation_error(response.errorMsg.city, $('#signupform #UserCity'));
+                        validation_error(response.errorMsg.country_id, $('#signupform .bootstrap-select'));
+                        validation_error(response.errorMsg.contact_no, $('#signupform #UserContactNo'));
+
+                    }
+
+                }
+            });
+            return false;
+        });
+
+
     })
+
+    function validation_error(rule, ele) {
+        if (rule) {
+            ele.after('<span class="error-message">' + rule + '</span>');
+            ele.addClass('textfield-error');
+        } else
+            ele.removeClass('textfield-error');
+    }
 </script>
 <?php $this->end(); ?>

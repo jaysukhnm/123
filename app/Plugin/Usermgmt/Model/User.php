@@ -57,13 +57,20 @@ class User extends UserMgmtAppModel {
 				'email'=> array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
-						'message'=> 'Please enter email or username')
+						'message'=> __('Please enter valid email')
+                                            )
 					),
 				'password'=>array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
-						'message'=> 'Please enter password')
-					)
+						'message'=> __('Please enter password')
+                                            ),
+                                        'mustBeLonger'=>array(
+                                                    'rule' => array('minLength', 6),
+                                                    'message'=> __('Password must be greater than 5 characters'),
+                                                    'on' => 'create',
+                                                    'last'=>true),
+                                            )
 			);
 		$this->validate=$validate1;
 		return $this->validates();
@@ -75,78 +82,118 @@ class User extends UserMgmtAppModel {
 	 */
 	function RegisterValidate() {
 		$validate1 = array(
-				"user_group_id" => array(
-					'rule' => array('comparison', '!=', 0),
-					'message'=> 'Please select group'),
-				'username'=> array(
-					'mustNotEmpty'=>array(
-						'rule' => 'notEmpty',
-						'message'=> 'Please enter username',
-						'last'=>true),
-					'mustUnique'=>array(
-						'rule' =>'isUnique',
-						'message' =>'This username already taken',
-					'last'=>true),
-					'mustBeLonger'=>array(
-						'rule' => array('minLength', 4),
-						'message'=> 'Username must be greater than 3 characters',
-						'last'=>true),
-					),
+//				"user_group_id" => array(
+//					'rule' => array('comparison', '!=', 0),
+//					'message'=> 'Please select group'),
+//				'username'=> array(
+//					'mustNotEmpty'=>array(
+//						'rule' => 'notEmpty',
+//						'message'=> 'Please enter username',
+//						'last'=>true),
+//					'mustUnique'=>array(
+//						'rule' =>'isUnique',
+//						'message' =>'This username already taken',
+//					'last'=>true),
+//					'mustBeLonger'=>array(
+//						'rule' => array('minLength', 4),
+//						'message'=> 'Username must be greater than 3 characters',
+//						'last'=>true),
+//					),
 				'first_name'=> array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
-						'message'=> 'Please enter first name')
+						'message'=> __('Please enter first name')
+                                            )
 					),
 				'last_name'=> array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
 						'on' => 'create',
-						'message'=> 'Please enter last name')
+						'message'=> __('Please enter last name')
+                                            )
 					),
 				'email'=> array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
-						'message'=> 'Please enter email',
+						'message'=> __('Please enter email'),
 						'last'=>true),
 					'mustBeEmail'=> array(
 						'rule' => array('email'),
-						'message' => 'Please enter valid email',
+						'message' => __('Please enter valid email'),
 						'last'=>true),
 					'mustUnique'=>array(
 						'rule' =>'isUnique',
-						'message' =>'This email is already registered',
+						'message' =>__('This email is already registered'),
 						)
 					),
-				'oldpassword'=>array(
-					'mustNotEmpty'=>array(
-						'rule' => 'notEmpty',
-						'message'=> 'Please enter old password',
-						'last'=>true),
-					'mustMatch'=>array(
-						'rule' => array('verifyOldPass'),
-						'message' => 'Please enter correct old password'),
-					),
+//				'oldpassword'=>array(
+//					'mustNotEmpty'=>array(
+//						'rule' => 'notEmpty',
+//						'message'=> 'Please enter old password',
+//						'last'=>true),
+//					'mustMatch'=>array(
+//						'rule' => array('verifyOldPass'),
+//						'message' => 'Please enter correct old password'),
+//					),
 				'password'=>array(
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
-						'message'=> 'Please enter password',
+						'message'=> __('Please enter password'),
 						'on' => 'create',
 						'last'=>true),
 					'mustBeLonger'=>array(
 						'rule' => array('minLength', 6),
-						'message'=> 'Password must be greater than 5 characters',
+						'message'=> __('Password must be greater than 5 characters'),
 						'on' => 'create',
 						'last'=>true),
-					'mustMatch'=>array(
-						'rule' => array('verifies'),
-						'message' => 'Both passwords must match'),
+//					'mustMatch'=>array(
+//						'rule' => array('verifies'),
+//						'message' => 'Both passwords must match'),
 						//'on' => 'create'
 					),
-				'captcha'=>array(
-					'mustMatch'=>array(
-						'rule' => array('recaptchaValidate'),
-						'message' => ''),
-					)
+                                 'address'=>array(
+                                            'mustNotEmpty'=>array(
+						'rule' => 'notEmpty',
+						'message'=> __('Please enter address')
+                                            )
+                                        ),           
+                                 'zip_code'=>array(
+                                            'mustNotEmpty'=>array(
+						'rule' => 'notEmpty',
+						'message'=> __('Please enter zipcode')
+                                            ),
+                                            'mustBeNumber'=>array(
+						'rule' => 'numeric',
+						'message'=> __('Zipcode must be numeric')
+                                            )
+                                        ),        
+                                 'city'=>array(
+                                            'mustNotEmpty'=>array(
+						'rule' => 'notEmpty',
+						'message'=> __('Please enter city')
+                                            )                                            
+                                        ),  
+                                 'country_id'=>array(
+                                            'mustNotEmpty'=>array(
+						'rule' => 'notEmpty',
+						'message'=> __('Please enter country')
+                                            )
+                                        ),         
+                                 'contact_no'=>array(
+                                            'mustNotEmpty'=>array(
+						'rule' => 'notEmpty',
+						'message'=> __('Please enter contact number')
+                                            ),
+                                            'mustBeNumber'=>array(
+                                                       'rule' => 'numeric',
+                                                       'message'=> __('Contact number must be numeric')
+                                            )
+                                        ),         
+//				'captcha'=>array(
+//					'mustMatch'=>array(
+//						'rule' => array('recaptchaValidate'),
+//						'message' => ''),
+//					)
 			);
 		$this->validate=$validate1;
 		return $this->validates();

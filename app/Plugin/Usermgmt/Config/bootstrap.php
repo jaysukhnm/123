@@ -107,7 +107,7 @@ function UsermgmtInIt(&$controller) {
 		set default group id here for registration
 	*/
 	if(!defined("DEFAULT_GROUP_ID")) {
-		define("DEFAULT_GROUP_ID", 2);
+		define("DEFAULT_GROUP_ID", 10);
 	}
 
 	/*

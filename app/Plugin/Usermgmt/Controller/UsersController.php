@@ -89,65 +89,73 @@ class UsersController extends UserMgmtAppController {
      */
     public function login() {
         $this->layout = 'ajax';
-        $user_group = '';
+        $user_group = $status = $errorMsg = '';
+        $status = 0;
+        $errorMsg = '';
         if ($this->request->isPost()) {
             $this->User->set($this->data);
             if ($this->User->LoginValidate()) {
                 $email = $this->data['email'];
                 $password = $this->data['password'];
-                $user = $this->User->findByUsername($email);
-                
+
+
+                $user = $this->User->findByEmail($email);
                 if (empty($user)) {
-                    $user = $this->User->findByEmail($email);
-                    if (empty($user)) {
-                        $errorMsg = __('Incorrect Email/Username or Password');
+                    $errorMsg = __('Incorrect Email or Password');
+                    $status = 0;
+                } else {
+                    // check for inactive account
+                    if ($user['User']['id'] != 1 and $user['User']['active'] == 0) {
+                        $errorMsg = __('Sorry your account is not active, please contact to Administrator');
+                        $status = 0;
+                    }
+                    // check for verified account
+                    if ($user['User']['id'] != 1 and $user['User']['email_verified'] == 0) {
+                        $errorMsg = __('Sorry your account is not active, please contact to Administrator');
+                        $status = 0;
+                    }
+                    if (empty($user['User']['salt'])) {
+                        $hashed = md5($password);
+                    } else {
+                        $hashed = $this->UserAuth->makePassword($password, $user['User']['salt']);
+                    }
+                    if ($user['User']['password'] === $hashed) {
+                        if (empty($user['User']['salt'])) {
+                            $salt = $this->UserAuth->makeSalt();
+                            $user['User']['salt'] = $salt;
+                            $user['User']['password'] = $this->UserAuth->makePassword($password, $salt);
+                            $this->User->save($user, false);
+                        }
+                        $this->UserAuth->login($user);
+                        if ($this->data['remember'] == 1) {
+                            $this->UserAuth->persist('2 weeks');
+                        }
+                        $OriginAfterLogin = $this->Session->read('Usermgmt.OriginAfterLogin');
+                        $this->Session->delete('Usermgmt.OriginAfterLogin');
+                        $redirect = (!empty($OriginAfterLogin)) ? $OriginAfterLogin : LOGIN_REDIRECT_URL;
+//                    $this->redirect($redirect);
+                        $errorMsg = __('Login Successfull');
+                        $status = 1;
+                        $user_group = $user['User']['user_group_id'];
+                    } else {
+                        $errorMsg = __('Incorrect Email or Password');
                         $status = 0;
                     }
                 }
-                // check for inactive account
-                if ($user['User']['id'] != 1 and $user['User']['active'] == 0) {
-                    $errorMsg = __('Sorry your account is not active, please contact to Administrator');
-                    $status = 0;
-                }
-                // check for verified account
-                if ($user['User']['id'] != 1 and $user['User']['email_verified'] == 0) {
-                    $errorMsg = __('Sorry your account is not active, please contact to Administrator');
-                    $status = 0;
-                }
-                if (empty($user['User']['salt'])) {
-                    $hashed = md5($password);
-                } else {
-                    $hashed = $this->UserAuth->makePassword($password, $user['User']['salt']);
-                }
-                if ($user['User']['password'] === $hashed) {
-                    if (empty($user['User']['salt'])) {
-                        $salt = $this->UserAuth->makeSalt();
-                        $user['User']['salt'] = $salt;
-                        $user['User']['password'] = $this->UserAuth->makePassword($password, $salt);
-                        $this->User->save($user, false);
-                    }
-                    $this->UserAuth->login($user);                    
-                    if ($this->data['remember'] == 1) {
-                        $this->UserAuth->persist('2 weeks');
-                    }
-                    $OriginAfterLogin = $this->Session->read('Usermgmt.OriginAfterLogin');
-                    $this->Session->delete('Usermgmt.OriginAfterLogin');
-                    $redirect = (!empty($OriginAfterLogin)) ? $OriginAfterLogin : LOGIN_REDIRECT_URL;
-//                    $this->redirect($redirect);
-                    $errorMsg = __('Login Successfull');
-                    $status = 1;
-                    $user_group = $user['User']['user_group_id'];
-                } else {
-                    $errorMsg = __('Incorrect Email/Username or Password');
-                    $status = 0;
-                }
+            } else {
+                $errors = $this->User->validationErrors;
+                $status = 2;
+                $errorMsg = $errors;
+                //var_dump($errors);
+                // $this->Session->setFlash($errors);
+                //die();
             }
-            $data['status'] = $status;
-            $data['errorMsg'] = $errorMsg;
-            $data['user_group'] = $user_group;
-            echo json_encode($data);
-            exit();
         }
+        $data['status'] = $status;
+        $data['errorMsg'] = $errorMsg;
+        $data['user_group'] = $user_group;
+        echo json_encode($data);
+        exit();
     }
 
     /**
@@ -169,29 +177,32 @@ class UsersController extends UserMgmtAppController {
      * @return void
      */
     public function register() {
+        $this->layout = 'ajax';
         $userId = $this->UserAuth->getUserId();
+        $status=0;
+        $errorMsg='';
+        $user_group='10';
         if ($userId) {
-            $this->redirect("/dashboard");
+            $this->redirect("/");
         }
         if (SITE_REGISTRATION) {
-            $userGroups = $this->UserGroup->getGroupsForRegistration();
-            $this->set('userGroups', $userGroups);
-            if ($this->request->isPost()) {
-                if (USE_RECAPTCHA && !$this->RequestHandler->isAjax()) {
-                    $this->request->data['User']['captcha'] = (isset($this->request->data['recaptcha_response_field'])) ? $this->request->data['recaptcha_response_field'] : "";
-                }
-                $this->User->set($this->data);
+            if ($this->request->isPost()) {             
+                $data_parse = array();
+                parse_str($_POST['post'], $data_parse);
+                $data1 = $data_parse['data'];
+                $this->request->data = $data1;
+                $this->User->set($this->request->data);
                 if ($this->User->RegisterValidate()) {
-                    if (!isset($this->data['User']['user_group_id'])) {
-                        $this->request->data['User']['user_group_id'] = DEFAULT_GROUP_ID;
-                    } elseif (!$this->UserGroup->isAllowedForRegistration($this->data['User']['user_group_id'])) {
-                        $this->Session->setFlash(__('Please select correct register as'));
-                        return;
-                    }
+                    $this->request->data['User']['user_group_id'] = DEFAULT_GROUP_ID;
+//                    if (!isset($this->data['User']['user_group_id'])) {
+//                    } elseif (!$this->UserGroup->isAllowedForRegistration($this->data['User']['user_group_id'])) {
+//                        $this->Session->setFlash(__('Please select correct register as'));
+//                        return;
+//                    }
                     $this->request->data['User']['active'] = 1;
-                    if (!EMAIL_VERIFICATION) {
-                        $this->request->data['User']['email_verified'] = 1;
-                    }
+                    $this->request->data['User']['email_verified'] = 1;
+//                    if (!EMAIL_VERIFICATION) {
+//                    }
                     $ip = '';
                     if (isset($_SERVER['REMOTE_ADDR'])) {
                         $ip = $_SERVER['REMOTE_ADDR'];
@@ -200,28 +211,50 @@ class UsersController extends UserMgmtAppController {
                     $salt = $this->UserAuth->makeSalt();
                     $this->request->data['User']['salt'] = $salt;
                     $this->request->data['User']['password'] = $this->UserAuth->makePassword($this->request->data['User']['password'], $salt);
-                    $this->User->save($this->request->data, false);
+                    
+                    if ($this->User->save($this->request->data, false)){
+                        $errorMsg = __('Registration Successfull');
+                        $status = 1;
+                        $user_group = '';
+                    }else{
+                        $errorMsg = __('Registration Error');
+                        $status = 0;
+                        $user_group = '';
+                    }
+
                     $userId = $this->User->getLastInsertID();
                     $user = $this->User->findById($userId);
                     if (SEND_REGISTRATION_MAIL && !EMAIL_VERIFICATION) {
-                        $this->User->sendRegistrationMail($user);
+                        // $this->User->sendRegistrationMail($user);
                     }
                     if (EMAIL_VERIFICATION) {
-                        $this->User->sendVerificationMail($user);
+                        // $this->User->sendVerificationMail($user);
                     }
                     if (isset($this->request->data['User']['email_verified']) && $this->request->data['User']['email_verified']) {
-                        $this->UserAuth->login($user);
-                        $this->redirect('/');
+                         $this->UserAuth->login($user);
+                        // $this->redirect('/');
                     } else {
                         $this->Session->setFlash(__('Please check your mail and confirm your registration'));
-                        $this->redirect('/register');
+                        //$this->redirect('/register');
                     }
+                } else {
+                    $errors = $this->User->validationErrors;
+                    $status = 2;
+                    $errorMsg = $errors;
+                   
                 }
             }
+
+            $data['status'] = $status;
+            $data['errorMsg'] = $errorMsg;
+            $data['user_group'] = $user_group;
+            echo json_encode($data);
+            exit();
         } else {
             $this->Session->setFlash(__('Sorry new registration is currently disabled, please try again later'));
-            $this->redirect('/login');
+            // $this->redirect('/login');
         }
+        exit();
     }
 
     /**

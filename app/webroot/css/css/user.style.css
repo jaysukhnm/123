@@ -23,6 +23,12 @@
     min-height: 178px;
 }
 
+#outer-wrapper #page-canvas {
+    height: auto;
+}
+.toggle-navigation{
+    display: none !important;
+}
 /*--------login and resistration style--------------*/
 
 .log-in-modal{
@@ -181,6 +187,27 @@
     font-size: 22px;
     float: right;
 }
+/*.error-message{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width:100%;
+}*/
+.error-message {
+    border-color: #ebccd1;
+    color: #a94442;
+    display: block;
+/*    margin-top: -11px !important;    */
+    width: 100%;
+}
+.log-in-modal .error-message {
+     margin-top: -3px !important;
+}
+.log-in-modal.sign-up-modal .error-message {
+     margin-top: -11px !important;
+}
 
 /*------------------------coupen style------------------------------------------*/
 .coupons .item .couponsContent .block {
@@ -220,8 +247,8 @@
 }
 
 .coupons .item .coupon-price .priceBox {
-/*    border: 1px solid #E0DEDE;*/
-/*    border-radius: 5px;*/
+    /*    border: 1px solid #E0DEDE;*/
+    /*    border-radius: 5px;*/
     background-color: #777;
     margin-right: 1px;
     margin-top: 0px;
@@ -241,7 +268,7 @@
 .coupons .item .coupon-price .priceBox .line-through {
     text-decoration: line-through;
 }
- .coupons .item .image img {
+.coupons .item .image img {
     min-height: 250px;   
 }
 .coupons .item .quick-view{
@@ -278,23 +305,9 @@
 }
 .textfield-error{
     border: 1px solid #D30606 !important;
-/*    background-color: #f2dede !important;*/
+    /*    background-color: #f2dede !important;*/
 }
-/*.error-message{
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
-    padding: 5px 10px;
-    border-radius: 5px;
-    width:100%;
-}*/
-.error-message {
-    border-color: #ebccd1;
-    color: #a94442;
-    display: block;
-    margin-top: -11px !important;    
-    width: 100%;
-}
+
 /*---------------------------------coupon modal style-----------------------------*/
 
 .coupon-modal .modal-wrapper{
@@ -319,3 +332,155 @@
         width:700px;
     }
 }
+
+/*******************************************************
+                    FOOTER STYLE
+********************************************************/
+
+
+/*------------------------social icon style-----------------------------*/
+
+.footer {
+    padding: 20px 0 0;
+    position: relative;
+    height: 200px;
+}
+.footer {
+    color: #dadada;
+    background: #585f69;
+    padding: 20px 0 30px;
+}
+.footer h2, .footer h3, .footer h4 {
+    color: #e4e4e4;
+    background: none;
+    text-shadow: none;
+}
+.footer .padding-left-10 {
+    padding-left: 10px;
+}
+.footer .padding-left-0 {
+    padding-left: 0;
+}
+.footer .qr-links {
+    padding-top: 11px;
+    padding-left: 0;
+}
+.footer .qr-links a img {
+    margin-bottom: 20px;
+    width: 124px;
+}
+.footer h3{
+    font-size: 20px;
+    font-weight: normal;
+}
+.footer,
+.copyright{
+    font-style: normal;
+}
+.copyright {
+    font-size: 12px;
+    padding: 11px 0 7px;
+    background: #3e4753;
+    border-top: solid 1px #777;
+}
+.copyright p {
+    color: #dadada;
+    margin-top: 12px;
+}
+.copyright a {
+    margin: 0 5px;    
+}
+.footer li a, .footer .storeOwner a, .copyright .container a {
+    color: #eee;
+}
+.footer a, .copyright a, .footer a:hover, .copyright a:hover {
+    color: #ff513f;
+}
+.footer .storeOwner {
+    background-color: #3e4753;
+    border: 1px solid #88929e;
+    border-radius: 5px !important;
+    padding: 10px 5px;
+    position: absolute;
+    top: 100px;
+    width: 100%;
+}
+.footer .inline-block {
+    display: inline-block!important;
+}
+.footer .img-responsive {
+    display: block;
+    max-width: 100%;
+    height: auto; 
+}
+.footer .marginBottom-0 {
+    margin-bottom: 0;
+}
+.footer .storeOwner .inline {
+    float: left;
+    line-height: 16px;
+    padding-left: 10px;
+}
+.footer .app {
+    background: url('/img/iphoneApp.png');
+    height: 283px;
+    width: 174px;
+    position: absolute;
+    top: -102px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.copyright .social-icons {
+    margin: 0;
+    padding: 0;
+}
+.copyright .social-icons {
+    margin-top: 5px;
+}
+.copyright .social-icons li {
+    margin: 0;
+}
+.copyright .social-icons li {
+    display: inline-block;
+    list-style: outside none none;
+    margin-bottom: 5px;
+    margin-right: 3px;
+    text-indent: -9999px;
+}
+.copyright .social-icons li a {
+    margin: 0 3px;
+}
+.copyright .social-icons li a, a.social-icon {    
+    width: 28px;
+    height: 28px;
+    display: block;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+.copyright .social-icons li:hover a {
+    background-position: 0 -38px;
+}
+.copyright .social_youtube {
+    background: rgba(0, 0, 0, 0) url("/img/icons/social/youtube.png") no-repeat scroll 0 0;
+}
+.copyright .social_googleplus {
+    background: rgba(0, 0, 0, 0) url("/img/icons/social/googleplus.png") no-repeat scroll 0 0;
+}
+.copyright .social_facebook {
+    background: rgba(0, 0, 0, 0) url("/img/icons/social/facebook.png") no-repeat scroll 0 0;
+}
+.copyright .social_twitter {
+    background: rgba(0, 0, 0, 0) url("/img/icons/social/twitter.png") no-repeat scroll 0 0;
+}
+
+
+/*******************************************************
+                    FOOTER STYLE END
+********************************************************/

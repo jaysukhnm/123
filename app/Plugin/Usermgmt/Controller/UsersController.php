@@ -89,7 +89,7 @@ class UsersController extends UserMgmtAppController {
      */
     public function login() {
         $this->layout = 'ajax';
-        $user_group = $status = $errorMsg = '';
+        $user_data = $status = $errorMsg = '';
         $status = 0;
         $errorMsg = '';
         if ($this->request->isPost()) {
@@ -97,8 +97,6 @@ class UsersController extends UserMgmtAppController {
             if ($this->User->LoginValidate()) {
                 $email = $this->data['email'];
                 $password = $this->data['password'];
-
-
                 $user = $this->User->findByEmail($email);
                 if (empty($user)) {
                     $errorMsg = __('Incorrect Email or Password');
@@ -127,7 +125,7 @@ class UsersController extends UserMgmtAppController {
                             $this->User->save($user, false);
                         }
                         $this->UserAuth->login($user);
-                        if ($this->data['remember'] == 1) {
+                        if (isset($this->data['remember']) && $this->data['remember'] == 1) {
                             $this->UserAuth->persist('2 weeks');
                         }
                         $OriginAfterLogin = $this->Session->read('Usermgmt.OriginAfterLogin');
@@ -136,7 +134,7 @@ class UsersController extends UserMgmtAppController {
 //                    $this->redirect($redirect);
                         $errorMsg = __('Login Successfull');
                         $status = 1;
-                        $user_group = $user['User']['user_group_id'];
+                        $user_data = $user['User'];
                     } else {
                         $errorMsg = __('Incorrect Email or Password');
                         $status = 0;
@@ -151,10 +149,11 @@ class UsersController extends UserMgmtAppController {
                 //die();
             }
         }
+        header('Content-type: application/json');
         $data['status'] = $status;
         $data['errorMsg'] = $errorMsg;
-        $data['user_group'] = $user_group;
-        echo json_encode($data);
+        $data['user_data'] = $user_data;
+        echo json_encode($data);        
         exit();
     }
 
@@ -179,51 +178,61 @@ class UsersController extends UserMgmtAppController {
     public function register() {
         $this->layout = 'ajax';
         $userId = $this->UserAuth->getUserId();
-        $status=0;
-        $errorMsg='';
-        $user_group='10';
+        $status = 0;
+        $errorMsg = '';
+        $user_data = '';
         if ($userId) {
             $this->redirect("/");
         }
         if (SITE_REGISTRATION) {
-            if ($this->request->isPost()) {             
-                $data_parse = array();
-                parse_str($_POST['post'], $data_parse);
-                $data1 = $data_parse['data'];
-                $this->request->data = $data1;
+            if ($this->request->isPost()) {
+//                
+//                $data_parse = array();
+//                parse_str($_POST['post'], $data_parse);
+//                $data1 = $data_parse['data'];
+//                $this->request->data = $data1;
                 $this->User->set($this->request->data);
                 if ($this->User->RegisterValidate()) {
-                    $this->request->data['User']['user_group_id'] = DEFAULT_GROUP_ID;
+                    $this->request->data['user_group_id'] = DEFAULT_GROUP_ID;
 //                    if (!isset($this->data['User']['user_group_id'])) {
 //                    } elseif (!$this->UserGroup->isAllowedForRegistration($this->data['User']['user_group_id'])) {
 //                        $this->Session->setFlash(__('Please select correct register as'));
 //                        return;
 //                    }
-                    $this->request->data['User']['active'] = 1;
-                    $this->request->data['User']['email_verified'] = 1;
+                    $this->request->data['active'] = 1;
+                    $this->request->data['email_verified'] = 1;
 //                    if (!EMAIL_VERIFICATION) {
 //                    }
                     $ip = '';
                     if (isset($_SERVER['REMOTE_ADDR'])) {
                         $ip = $_SERVER['REMOTE_ADDR'];
                     }
-                    $this->request->data['User']['ip_address'] = $ip;
-                    $salt = $this->UserAuth->makeSalt();
-                    $this->request->data['User']['salt'] = $salt;
-                    $this->request->data['User']['password'] = $this->UserAuth->makePassword($this->request->data['User']['password'], $salt);
+
+                    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $randomString = '';
+                    for ($i = 0; $i < 10; $i++) {
+                        $randomString .= $characters[rand(0, strlen($characters) - 1)];
+                    }
+                    $this->request->data['qrcode_id'] = $randomString;
                     
-                    if ($this->User->save($this->request->data, false)){
+                    $this->request->data['ip_address'] = $ip;
+                    $salt = $this->UserAuth->makeSalt();
+                    $this->request->data['salt'] = $salt;
+                    $this->request->data['password'] = $this->UserAuth->makePassword($this->request->data['password'], $salt);
+
+                    if ($this->User->save($this->request->data, false)) {
+                        $userId = $this->User->getLastInsertID();
+                        $user = $this->User->findById($userId);
                         $errorMsg = __('Registration Successfull');
                         $status = 1;
-                        $user_group = '';
-                    }else{
+                        $user_data = $user['User'];
+                    } else {
                         $errorMsg = __('Registration Error');
                         $status = 0;
-                        $user_group = '';
+                        $user_data = '';
                     }
 
-                    $userId = $this->User->getLastInsertID();
-                    $user = $this->User->findById($userId);
+
                     if (SEND_REGISTRATION_MAIL && !EMAIL_VERIFICATION) {
                         // $this->User->sendRegistrationMail($user);
                     }
@@ -231,7 +240,7 @@ class UsersController extends UserMgmtAppController {
                         // $this->User->sendVerificationMail($user);
                     }
                     if (isset($this->request->data['User']['email_verified']) && $this->request->data['User']['email_verified']) {
-                         $this->UserAuth->login($user);
+                        $this->UserAuth->login($user);
                         // $this->redirect('/');
                     } else {
                         $this->Session->setFlash(__('Please check your mail and confirm your registration'));
@@ -241,19 +250,17 @@ class UsersController extends UserMgmtAppController {
                     $errors = $this->User->validationErrors;
                     $status = 2;
                     $errorMsg = $errors;
-                   
                 }
             }
-
-            $data['status'] = $status;
-            $data['errorMsg'] = $errorMsg;
-            $data['user_group'] = $user_group;
-            echo json_encode($data);
-            exit();
         } else {
             $this->Session->setFlash(__('Sorry new registration is currently disabled, please try again later'));
             // $this->redirect('/login');
         }
+        header('Content-type: application/json');
+        $data['status'] = $status;
+        $data['errorMsg'] = $errorMsg;
+        $data['user_data'] = $user_data;
+        echo json_encode($data);
         exit();
     }
 

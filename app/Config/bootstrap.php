@@ -112,7 +112,10 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
-
+define('DEFAULT_LANGUAGE', 'eng'); // The 3 letters code for your default language
+Configure::write('Config.languages', array('eng', 'fr')); //List of languages you want to support
+CakePlugin::load('I18n', array('routes' => true));
+        
 CakePlugin::load('DebugKit');
 
 CakePlugin::loadAll(array(

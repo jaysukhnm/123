@@ -179,7 +179,7 @@ class User extends UserMgmtAppModel {
 						'message'=> __('Please enter country')
                                             )
                                         ),         
-                                 'contact_no'=>array(
+                                 'phone'=>array(
                                             'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
 						'message'=> __('Please enter contact number')

@@ -41,9 +41,13 @@
  * how to customize the loading of plugin routes.
  */
 	CakePlugin::routes();
+        
+        App::uses('I18nRoute', 'I18n.Routing/Route');
+	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'), array('routeClass' => 'I18nRoute'));
+	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'), array('routeClass' => 'I18nRoute'));
 
 /**
  * Load the CakePHP default routes. Only remove this if you do not want to use
  * the built-in default routes.
  */
-	require CAKE . 'Config' . DS . 'routes.php';
+//	require CAKE . 'Config' . DS . 'routes.php';

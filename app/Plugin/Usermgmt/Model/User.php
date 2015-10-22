@@ -58,7 +58,11 @@ class User extends UserMgmtAppModel {
 					'mustNotEmpty'=>array(
 						'rule' => 'notEmpty',
 						'message'=> __('Please enter valid email')
-                                            )
+                                            ),
+                                        'mustBeEmail'=> array(
+                                                    'rule' => array('email'),
+                                                    'message' => __('Please enter valid email'),
+                                                    'last'=>true),
 					),
 				'password'=>array(
 					'mustNotEmpty'=>array(

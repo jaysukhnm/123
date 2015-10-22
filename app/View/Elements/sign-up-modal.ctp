@@ -3,7 +3,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="container content">		
-                    <div class="row">	                        
+                    <div class="row">	       
+
                         <div class="col-md-12 col-sm-12 reg-page">
                             <div class="reg-block-header text-center">
                                 <h1><?php echo __("Sign In"); ?></h1>
@@ -51,7 +52,7 @@
                             <hr>
                             <h4><?php echo __("Forget your Password ?"); ?></h4>
                             <p><?php echo __("no worries,"); ?>
-                                <a href="#" id="forgetpwd" class="color-red" data-toggle="modal" data-target="#forgot-popup"><?php echo __('click here'); ?></a>
+                                <a href="#" id="forgetpwd" class="color-red" data-toggle="modal" data-target="#forgotpwdmodal"><?php echo __('click here'); ?></a>
                                 <?php //echo $this->Html->link(__('click here'), array('controller' => 'users', 'action' => 'forgot_password'), array('class' => 'color-red')); ?>
                                 <?php echo __("to reset your password."); ?></p>
                         </div>
@@ -70,15 +71,14 @@
 
 
 
-<div id="forgot-popup" class="modal fade log-in-modal forget-modal" role="dialog">
+<div id="forgotpwdmodal" class="modal fade log-in-modal forget-modal" role="dialog">
     <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
-            <!--      <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
-                  </div>-->
+            <div class="modal-header">
+                <img src="/img/closebtn.png" id="close-btn" aria-hidden="true" data-dismiss="modal" type="button">                  
+            </div>
             <div class="modal-body">
                 <div class="container content">		
                     <div class="row">	                        
@@ -86,10 +86,12 @@
                             <div class="reg-block-header text-center">
                                 <h1><?php echo __("Reset Password"); ?></h1>
                                 <?php echo __('Enter the email address associated with your account, and we\'ll email you a link to reset your password.'); ?>
-                                <?php echo $this->Form->create('Tbluser', array('class' => 'forgetpwdfrm ', 'novalidate', 'controller' => 'Users', 'action' => 'forgotPassword', 'plugin' => 'Usermgmt')); ?>
+                                <?php echo $this->Form->create('Tbluser', array('id' => 'forgetpwdform', 'class' => 'forgetpwdfrm ', 'novalidate', 'controller' => 'Users', 'action' => 'forgotPassword', 'plugin' => 'Usermgmt')); ?>
+                                <div class="form-group form-group-email margin-bottom-20">
+                                    <?php echo $this->Form->input('emailId', array('id' => 'forgetpwdformemail', 'div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'E-mail address')); ?>
+                                    <i class="fa fa-at fa-2x"></i>
+                                </div>
 
-                                <?php echo $this->Form->input('emailId', array('div' => false, 'label' => false, 'class' => 'form-control margin-bottom-10', 'placeholder' => 'E-mail address')); ?>
-                                <i class="fa fa-at fa-2x"></i>
                                 <div class="row">
                                     <div class="col-md-12 text-right">
                                         <button class="btn-u btn-block log-in-btn btn-signup" name="submit" value="Register" type="submit"><?php echo __('Send Reset Link'); ?></button>                        
@@ -264,16 +266,17 @@ echo $this->Html->script('jquery.validate.min.js');
             $.ajax({
                 type: 'POST',
                 url: '<?php echo $this->Html->url('/'); ?>login',
-                data: {email: email, password: password, remember: remember},               
+                data: {email: email, password: password, remember: remember},
                 success: function (response) {
-                    
+
                     if (response.status == '1') {
                         $('#loginModal').modal('hide');
+                        $('.navigation-items .user-area').html('<?php echo "<li>" . $this->Html->link(__('Logout'), array('controller' => 'Users', 'action' => 'logout', 'plugin' => 'usermgmt')); ?>');
                     }
                     if (response.status == '2') {
                         $('#signinForm .error-message').empty();
-                        validation_error(response.errorMsg.password, $('#loginemail'));
-                        validation_error(response.errorMsg.email, $('#loginpassword'));
+                        validation_error(response.errorMsg.email, $('#loginemail'));
+                        validation_error(response.errorMsg.password, $('#loginpassword'));
                     }
 
                     if (response.user_group == '1') {
@@ -317,11 +320,12 @@ echo $this->Html->script('jquery.validate.min.js');
                     city: city,
                     country_id: country,
                     phone: contact_number
-                },                
+                },
                 success: function (response) {
 
                     if (response.status == '1') {
                         $('#signupModal').modal('hide');
+                        $('.navigation-items .user-area').html('<?php echo "<li>" . $this->Html->link(__('Logout'), array('controller' => 'Users', 'action' => 'logout', 'plugin' => 'usermgmt')); ?>');
                     }
                     if (response.status == '2') {
                         $('#signupform .error-message').empty();
@@ -341,13 +345,32 @@ echo $this->Html->script('jquery.validate.min.js');
             });
             return false;
         });
-        
-       
-            if($('.modal').hasClass('in')){
-                $('#outer-wrapper.show-nav #inner-wrapper').css('transform','translateX(0px)');
-            }
-      
-        
+
+
+        $('#forgetpwdform').submit(function () {
+            var email = $('#forgetpwdformemail').val();
+
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo $this->Html->url('/'); ?>forgotPassword',
+                data: {email: email},
+                success: function (response) {
+                    $('#forgotpwdmodal .error-message').empty();
+                    if (response.status == '2') {
+                        validation_error(response.errorMsg.email, $('#forgetpwdformemail'));
+                    }
+                    if (response.status == '1') {
+                        success_msg(response.errorMsg, $('#forgetpwdformemail'));
+                    }
+                    if (response.status == '0') {
+                        validation_error('No user found for this email-id', $('#forgetpwdformemail'));
+                    }
+                }
+            });
+            return false;
+        });
+
+
     })
 
     function validation_error(rule, ele) {
@@ -357,6 +380,13 @@ echo $this->Html->script('jquery.validate.min.js');
         } else
             ele.removeClass('textfield-error');
     }
+
+    function success_msg(msg, ele) {
+        if (msg) {
+            ele.after('<span class="success-message">' + msg + '</span>');
+            ele.removeClass('textfield-error');
+        }
+    }
 </script>
 <?php $this->end(); ?>
 
@@ -365,57 +395,58 @@ echo $this->Html->script('jquery.validate.min.js');
 <script type="text/javascript">
     // This is called with the results from from FB.getLoginStatus().
     function statusChangeCallback(response) {
-	if (response.status === 'connected') {
-	    login();
-	} else if (response.status === 'not_authorized') {
-	    alert('Please log into this app.');
-	} else {
-	    alert('Please log into this fb.');
-	}
+        if (response.status === 'connected') {
+            login();
+        } else if (response.status === 'not_authorized') {
+            alert('Please log into this app.');
+        } else {
+            alert('Please log into this fb.');
+        }
     }
 
-    $("#fb-login").click(function() {
-	$("#LoadingImage").show();
-	FB.login(function(response) {
-	    statusChangeCallback(response);
-	});
+    $("#fb-login").click(function () {
+        $("#LoadingImage").show();
+        FB.login(function (response) {
+            statusChangeCallback(response);
+        });
     });
 
-    window.fbAsyncInit = function() {
-	FB.init({
-	    appId: '<?php echo Configure::read("fb_settings.fb_app_id") ?>',
-	    cookie: true, // enable cookies to allow the server to access the session
-	    xfbml: true, // parse social plugins on this page
-	    version: 'v2.1' // use version 2.1
-	});
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: '495564667271600',
+            xfbml: true,
+            version: 'v2.5'
+        });
     };
 
-    // Load the SDK asynchronously
-    (function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id))
-	    return;
-	js = d.createElement(s);
-	js.id = id;
-	js.src = "//connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
     function login() {
-	FB.api('/me', function(response) {
-	    var url = '/tblusers/facebook';
-	    $.ajax({
-		url: url,
-		type: 'POST',
-		data: {User: response},
-		success: function(res) {
-		    $("#LoadingImage").hide();
-		    if (res === '1') {
-			window.location.replace('<?php echo FULL_BASE_URL; ?>');
-		    }
-		}
-	    });
-	});
+        FB.api('/me', function (response) {
+            console.log(JSON.stringify(response));
+            var url = '/social_users/facebook';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {User: response},
+                success: function (res) {
+                    $("#LoadingImage").hide();
+                    if (res === '1') {
+                        $('.navigation-items .user-area').html('<?php echo "<li>" . $this->Html->link(__('Logout'), array('controller' => 'Users', 'action' => 'logout', 'plugin' => 'usermgmt')); ?>');
+                        //window.location.replace('<?php echo FULL_BASE_URL; ?>');
+                    }
+                }
+            });
+        });
     }
 </script>
 <?php $this->end(); ?>

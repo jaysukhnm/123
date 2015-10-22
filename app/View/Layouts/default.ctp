@@ -133,7 +133,7 @@ endif;?>
                 </div>
                 
 
-    <nav role="navigation" class="navbar navbar-default">
+    <nav role="navigation" class="navbar navbar-default navigation-items">
 
         <!-- Brand and toggle get grouped for better mobile display -->
 
@@ -182,16 +182,20 @@ endif;?>
             <li class="<?php if ($this->request->controller == "contest") echo "active"; ?>">
 		    <?php echo $this->Html->link(__('Challenge'), array('controller' => 'contest', 'action' => 'index'))?>		    
             </li>
-            <?php 
-        $user = $this->UserAuth->getUser();
-        if($user):
-                echo "<li>".$this->Html->link(__('Logout'), array('controller' => 'Users', 'action' => 'logout', 'plugin' => 'usermgmt'));
-        else:?>
-            <li><a class="" data-toggle="modal" data-target="#loginModal"><?php echo __('Sign In');?></a></li>
-            <li><a class="" data-toggle="modal" data-target="#signupModal"><?php echo __('Register');?></a></li>
-        <?php endif;
-        ?>
-        </ul>        
+            </ul>
+            <ul class="user-area nav navbar-nav">
+                <?php 
+                $user = $this->UserAuth->getUser();
+                if($user):
+                        echo "<li>".$this->Html->link(__('Logout'), array('controller' => 'Users', 'action' => 'logout', 'plugin' => 'usermgmt'));
+                else:?>
+                    <li><a class="" data-toggle="modal" data-target="#loginModal"><?php echo __('Sign In');?></a></li>
+                    <li><a class="" data-toggle="modal" data-target="#signupModal"><?php echo __('Register');?></a></li>
+                <?php endif;
+                ?>
+
+            </ul>
+             
 
         </div>
 
@@ -204,7 +208,7 @@ endif;?>
 		<?php echo $this->fetch('content'); ?>	    
 		<!--=== End Content Part ===-->
             </div>           
-        </div>
+        
  
         
         <!--Page Footer-->

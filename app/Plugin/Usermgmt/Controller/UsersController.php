@@ -499,28 +499,45 @@ class UsersController extends UserMgmtAppController {
      * @return void
      */
     public function forgotPassword() {
+        $this->layout = 'ajax';
+        $status = '0';
+        $errorMsg = '';
+        $user_data = '';
         if ($this->request->isPost()) {
+
             $this->User->set($this->data);
             if ($this->User->LoginValidate()) {
-                $email = $this->data['User']['email'];
-                $user = $this->User->findByUsername($email);
+                $email = $this->data['email'];
+                $user = $this->User->findByEmail($email);
+
                 if (empty($user)) {
-                    $user = $this->User->findByEmail($email);
-                    if (empty($user)) {
-                        $this->Session->setFlash(__('Incorrect Email/Username'));
-                        return;
+                    $status = '0';
+                    $errorMsg = __('No user found for this email-id');
+                } else {
+                    // check for inactive account
+                    if ($user['User']['id'] != 1 and $user['User']['email_verified'] == 0) {
+                        $status = '0';
+                        $errorMsg = __('Your registration has not been confirmed yet please verify your email before reset password');
+                    } else {
+                        $this->User->forgotPassword($user);
+                        $status = '1';
+                        $errorMsg = __('Please check your mail for reset your password');
                     }
                 }
-                // check for inactive account
-                if ($user['User']['id'] != 1 and $user['User']['email_verified'] == 0) {
-                    $this->Session->setFlash(__('Your registration has not been confirmed yet please verify your email before reset password'));
-                    return;
-                }
-                $this->User->forgotPassword($user);
-                $this->Session->setFlash(__('Please check your mail for reset your password'));
-                $this->redirect('/login');
+
+                //$this->redirect('/login');
+            } else {
+                $errors = $this->User->validationErrors;
+                $status = '2';
+                $errorMsg = $errors;
             }
         }
+        header('Content-type: application/json');
+        $data['status'] = $status;
+        $data['errorMsg'] = $errorMsg;
+        $data['user_data'] = $user_data;
+        echo json_encode($data);
+        exit();
     }
 
     /**

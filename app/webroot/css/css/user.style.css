@@ -26,6 +26,9 @@
 #outer-wrapper #page-canvas {
     height: auto;
 }
+#page-content{
+    z-index: 1;
+}
 .toggle-navigation{
     display: none !important;
 }
@@ -366,6 +369,55 @@
         width:700px;
     }
 }
+
+
+/*-------------------reset password style------------------------*/
+.reset-password-modal .modal-wrapper.container{
+    background-color: rgba(0,0,0,0.5);
+    color:#fff;
+}
+.reset-password-modal .row{
+    margin: 20px 0;
+}
+.reset-password-modal .row input{
+    color:#000;
+}
+.reset-password-modal .modal-header > h2 {
+    font-size: 24px;
+    margin: 0;
+}
+.reset-password-modal .modal-header > img {
+    cursor: pointer;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 25px;
+}
+.reset-password-modal .modal-wrapper{
+    max-width: 700px;
+}
+
+@media screen and (max-width:320px){
+    .reset-password-modal .modal-wrapper{
+        max-width: 280px !important;
+    }
+}
+@media screen and (max-width:480px){
+    .reset-password-modal .modal-wrapper{
+        max-width: 400px;
+    }
+}
+@media screen and (max-width:768px){
+    .reset-password-modal .modal-wrapper{
+        max-width: 700px;
+    }
+}
+@media screen and (min-width:768px){
+    .reset-password-modal .modal-wrapper{
+        max-width: 700px;
+    }
+}
+
 
 /*******************************************************
                     FOOTER STYLE
